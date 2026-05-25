@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| **Materia** | Administración de Servidores Linux |
+| **Materia** | Taller de sistemas Operativos |
 | **Proyecto** | Implementación de NGINX 1.31.x y PHP 8.4.x compilados desde código fuente |
 | **Sistema Operativo** | AlmaLinux 10.1 (Heliotrope Lion) |
 | **Fecha** | Mayo 2026 |
@@ -16,6 +16,7 @@
 - Hernandez Pizano Cesar Giovanni
 - Baltazar Migangos Angel Sebastian
 - Flores Perez Jacobo Johann
+- Reyna Bello Eduardo Rodrigo
 
 ---
 
@@ -51,13 +52,24 @@ Una vez instalado el sistema, se actualizó y se instalaron las dependencias nec
 
 ```bash
 dnf update -y
+```
 
+<img width="800" height="400" alt="prueba1" src="https://github.com/user-attachments/assets/fed871e4-686c-44d7-950a-7dd2e66f82da" />
+
+```bash
 dnf install -y gcc gcc-c++ make cmake zlib-devel openssl-devel \
   libcurl-devel libpng-devel freetype-devel sqlite-devel \
   bison tar wget git oniguruma-devel epel-release nano
+```
 
+<img width="800" height="400" alt="prueba2" src="https://github.com/user-attachments/assets/250d597d-397e-4f45-ab8a-64ed88e2ef53" />
+
+```bash
 dnf install -y re2c
 ```
+
+<img width="800" height="400" alt="prueba3" src="https://github.com/user-attachments/assets/9b93d1a3-3f6a-4be7-843e-a8fc4d2c1e56" />
+
 
 ### 2. Creación de usuarios y directorios del sistema
 
@@ -67,10 +79,17 @@ Se crearon los usuarios y grupos del sistema necesarios para ejecutar los servic
 groupadd -r nginx
 useradd -r -g nginx -s /sbin/nologin -d /srv/nginx nginx
 useradd -r -g nginx -s /sbin/nologin php
+```
 
+<img width="800" height="400" alt="prueba4" src="https://github.com/user-attachments/assets/67dbb2bf-2535-4555-b936-fc66efdd73d7" />
+
+```bash
 mkdir -p /srv/nginx
 chown -R nginx:nginx /srv/nginx
 ```
+
+<img width="800" height="400" alt="prueba5" src="https://github.com/user-attachments/assets/9d065623-fb2e-47b5-8b3b-e04dc1beb5e0" />
+
 
 ### 3. Compilación e instalación de NGINX 1.31.1
 
@@ -81,7 +100,12 @@ cd /tmp
 wget https://nginx.org/download/nginx-1.31.1.tar.gz
 tar -xzvf nginx-1.31.1.tar.gz
 cd nginx-1.31.1
+```
 
+<img width="800" height="400" alt="prueba6" src="https://github.com/user-attachments/assets/255c75bd-7e46-40cd-9374-800bfaf2fa59" />
+
+
+```bash
 ./configure \
   --prefix=/srv/nginx \
   --user=nginx \
@@ -95,12 +119,24 @@ cd nginx-1.31.1
 make && make install
 ```
 
+<img width="800" height="400" alt="prueba7" src="https://github.com/user-attachments/assets/59b1775c-9d21-4817-b207-b471488f30ea" />
+
+
+```bash
+make && make install
+```
+
+<img width="800" height="400" alt="prueba8" src="https://github.com/user-attachments/assets/dcdcddc5-665e-4372-b6d2-2c5f672234b5" />
+
 Se verificó la instalación con:
 
 ```bash
 /srv/nginx/sbin/nginx -v
 # nginx version: nginx/1.31.1
 ```
+
+<img width="800" height="400" alt="prueba9" src="https://github.com/user-attachments/assets/f6022655-5de9-4d2a-aa3e-9ee92a57f9dc" />
+
 
 ### 4. Compilación e instalación de PHP 8.4.7
 
@@ -111,7 +147,11 @@ cd /tmp
 wget https://www.php.net/distributions/php-8.4.7.tar.gz
 tar -xzvf php-8.4.7.tar.gz
 cd php-8.4.7
+```
 
+<img width="800" height="400" alt="prueba10" src="https://github.com/user-attachments/assets/bae1e482-89b6-4675-b02e-3470cde44b6e" />
+
+```bash
 ./configure \
   --prefix=/srv/nginx \
   --with-fpm-user=php \
@@ -128,7 +168,12 @@ cd php-8.4.7
   --enable-mbstring \
   --enable-calendar \
   --with-sqlite3
+```
 
+<img width="800" height="400" alt="prueba11" src="https://github.com/user-attachments/assets/318db1b9-5cb4-41ee-a949-bb1656dab1f5" />
+
+
+```bash
 make -j$(nproc) && make install
 ```
 
@@ -158,6 +203,9 @@ listen.owner = nginx
 listen.group = nginx
 listen.mode = 0660
 ```
+
+<img width="800" height="400" alt="prueba12" src="https://github.com/user-attachments/assets/e2158230-5885-439c-9c82-745f22f1403b" />
+
 
 ### 6. Configuración de NGINX con FastCGI
 
@@ -202,6 +250,9 @@ http {
 }
 ```
 
+<img width="880" height="400" alt="prueba13" src="https://github.com/user-attachments/assets/791f4e3c-0c2a-468f-bf20-c3fa677af4c6" />
+
+
 ### 7. Registro de servicios en systemd
 
 **Servicio NGINX** — `/etc/systemd/system/nginx.service`:
@@ -224,6 +275,9 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 
+<img width="1600" height="899" alt="prueba14" src="https://github.com/user-attachments/assets/3be1be6d-3d00-4838-90e8-3c2e7ee32ef6" />
+
+
 **Servicio PHP-FPM** — `/etc/systemd/system/php-fpm8.4.service`:
 
 ```ini
@@ -241,6 +295,9 @@ ExecReload=/bin/kill -s USR2 $MAINPID
 WantedBy=multi-user.target
 ```
 
+<img width="800" height="400" alt="prueba15" src="https://github.com/user-attachments/assets/529b91d7-b431-4354-a669-e25134b5b3c6" />
+
+
 Se habilitaron y arrancaron ambos servicios:
 
 ```bash
@@ -250,6 +307,9 @@ systemctl start php-fpm8.4
 systemctl start nginx
 ```
 
+<img width="800" height="400" alt="prueba16" src="https://github.com/user-attachments/assets/42a17103-c869-4bf2-85f5-8de4b9b4512d" />
+
+
 ### 8. Verificación del funcionamiento
 
 Se creó el archivo de prueba `phpinfo.php`:
@@ -258,6 +318,10 @@ Se creó el archivo de prueba `phpinfo.php`:
 echo '<?php phpinfo(); ?>' > /srv/nginx/html/phpinfo.php
 ```
 
+<img width="858" height="402" alt="prueba17" src="https://github.com/user-attachments/assets/44a1875f-e9ce-41a3-9761-a7c9c4e66e2a" />
+
+
+
 Se configuró el reenvío de puertos en VirtualBox (host 8080 → guest 80) y se accedió desde el navegador a:
 
 ```
@@ -265,6 +329,9 @@ http://127.0.0.1:8080/phpinfo.php
 ```
 
 El resultado mostró correctamente la página de información de PHP 8.4.7 con Server API: FPM/FastCGI, confirmando la comunicación exitosa entre NGINX y PHP-FPM.
+
+<img width="1600" height="850" alt="resultado" src="https://github.com/user-attachments/assets/eb03975b-4a84-4cf5-895d-39250d9fff9b" />
+
 
 ---
 
