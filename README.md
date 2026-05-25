@@ -6,7 +6,9 @@
 
 | | |
 |---|---|
+| **Escuela** | Tecnologico de Estudios Superiores del Oriente del Estado de Mexico |
 | **Materia** | Taller de sistemas Operativos |
+| **Profesor** | Gustavo Moises Romero Gonzalez |
 | **Proyecto** | Implementación de NGINX 1.31.x y PHP 8.4.x compilados desde código fuente |
 | **Sistema Operativo** | AlmaLinux 10.1 (Heliotrope Lion) |
 | **Fecha** | Mayo 2026 |
@@ -16,7 +18,6 @@
 - Hernandez Pizano Cesar Giovanni
 - Baltazar Migangos Angel Sebastian
 - Flores Perez Jacobo Johann
-- Reyna Bello Eduardo Rodrigo
 
 ---
 
